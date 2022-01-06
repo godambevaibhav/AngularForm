@@ -1,41 +1,78 @@
 <div class="container">
   <div class="row">
     <div class="offset-md-4 col-md-5 pt-5">
-      <form action="">
+      <form [formGroup]="userdata" (ngSubmit)="onSubmit()" >
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">First Name</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Last Name</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Mobile Name</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Email Address</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">
-              Male
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Female
-            </label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="First Name" formControlName="firstName" [ngClass]="{'is-invalid': submitted && frmctrl['firstName'].errors}">
+          <div *ngIf="frmctrl['firstName'].errors && submitted" class="invalid-feedback">
+            <div *ngIf="frmctrl['firstName'].errors['required']">First Name is required</div>
           </div>
 
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput2" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Last Name" formControlName="lastName" [ngClass]="{'is-invalid': submitted && frmctrl['lastName'].errors}">
+          <div *ngIf="submitted && frmctrl['lastName'].errors" class="invalid-feedback">
+            <div *ngIf="frmctrl['lastName'].errors['required']">Last Name is required</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput3" class="form-label">Mobile No</label>
+          <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="Mobile No" formControlName="mobileNo" [ngClass]="{'is-invalid': submitted && frmctrl['mobileNo'].errors}">
+          <div *ngIf="(submitted || frmctrl['mobileNo'].touched) && frmctrl['mobileNo'].errors" class="invalid-feedback">
+            <div *ngIf="frmctrl['mobileNo'].errors['required']">Mobile No is required</div>
+            <div *ngIf="frmctrl['mobileNo'].errors['minLength']">Mobile No length not less than 10 digit</div>
+            <div *ngIf="frmctrl['mobileNo'].errors['maxLength']">Mobile No length not more than 10 digit</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput4" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="exampleFormControlInput4" placeholder="Email Address" formControlName="email" [ngClass]="{'is-invalid': submitted && frmctrl['email'].errors}">
+          <div *ngIf="submitted && frmctrl['email'].errors" class="invalid-feedback">
+            <div *ngIf="frmctrl['email'].errors['required']">Email Address is required</div>
+          </div>
+        </div>
+          <div class="mb-3">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male" formControlName="gender" [ngClass]="{'is-invalid': submitted && frmctrl['gender'].errors }" >
+                <label class="form-check-label" for="male">
+                  Male
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female" formControlName="gender" [ngClass]="{'is-invalid': submitted && frmctrl['gender'].errors }">
+                <label class="form-check-label" for="female">
+                  Female
+                </label>
+              </div>
+              <div *ngIf="submitted && frmctrl['gender'].errors" class="invalid-feedback">
+                <div *ngIf="frmctrl['gender'].errors['required']">Gender is required</div>
+              </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput5" class="form-label">Password</label>
+            <input  class="form-control" id="exampleFormControlInput5" placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" [ngClass]="{'is-invalid': submitted && frmctrl['password'].errors}">
+            <button class="btn int-group-btn " type="button" (click)="hide = !hide">
+              <fa-icon [icon]="hide ? faEye : faEyeSlash" class="fa-1x"></fa-icon>
+            </button>
+            <div *ngIf="submitted && frmctrl['password'].errors" class="invalid-feedback">
+              <div *ngIf="frmctrl['password'].errors['required']">Password is required</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput6" class="form-label">Confirm Password</label>
+            <input  class="form-control" id="exampleFormControlInput6" placeholder="Confirm Password" [type]="notvisible ? 'password' : 'text'" formControlName="confirmPwd" [ngClass]="{'is-invalid': submitted && frmctrl['confirmPwd'].errors}">
+            <button class="btn int-group-btn" type="button" (click)="notvisible = !notvisible">
+              <fa-icon [icon]="notvisible ? faEye : faEyeSlash" class="fa-1x"></fa-icon>
+            </button>
+            <div *ngIf="submitted && frmctrl['confirmPwd'].errors" class="invalid-feedback">
+              <div *ngIf="frmctrl['confirmPwd'].errors['required']">Confirm Password is required</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
       </form>
     </div>
 
